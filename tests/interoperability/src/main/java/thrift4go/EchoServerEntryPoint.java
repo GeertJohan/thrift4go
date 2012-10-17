@@ -16,7 +16,7 @@ import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import thrift4go.generated.ContainerOfEnumsTestService;
+import thrift4go.generated.enumm.ContainerOfEnumsTestService;
 
 
 public class EchoServerEntryPoint {
