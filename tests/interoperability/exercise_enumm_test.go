@@ -188,11 +188,11 @@ func TestBinaryProtocol(t *testing.T) {
 	}
 }
 
-func TestCompactProtocol(t *testing.T) {
-	pf := thrift.NewTCompactProtocolFactory()
+func TestJSONProtocol(t *testing.T) {
+	pf := thrift.NewTJSONProtocolFactory()
 	tf := thrift.NewTTransportFactory()
 
-	addr, _ := net.ResolveTCPAddr("tcp", "localhost:8082")
+	addr, _ := net.ResolveTCPAddr("tcp", "localhost:8081")
 
 	channel := thrift.NewTSocketAddr(addr)
 	defer channel.Close()
@@ -370,11 +370,11 @@ func TestCompactProtocol(t *testing.T) {
 	}
 }
 
-func TestJSONProtocol(t *testing.T) {
-	pf := thrift.NewTJSONProtocolFactory()
+func TestCompactProtocol(t *testing.T) {
+	pf := thrift.NewTCompactProtocolFactory()
 	tf := thrift.NewTTransportFactory()
 
-	addr, _ := net.ResolveTCPAddr("tcp", "localhost:8081")
+	addr, _ := net.ResolveTCPAddr("tcp", "localhost:8082")
 
 	channel := thrift.NewTSocketAddr(addr)
 	defer channel.Close()
