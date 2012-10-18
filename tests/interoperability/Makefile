@@ -37,24 +37,26 @@ test-compile-stamp: test-generation-stamp
 	touch $@
 
 test-generation-stamp:
+	# thrift compile for enumm
 	"$(THRIFT)" --gen java "$(CURDIR)/../generation/enumm.thrift"
 	"$(THRIFT)" --gen go "$(CURDIR)/../generation/enumm.thrift"
+	# thrift compile for listt
 	"$(THRIFT)" --gen java "$(CURDIR)/../generation/listt.thrift"
 	"$(THRIFT)" --gen go "$(CURDIR)/../generation/listt.thrift"
+	# add generated code to java test environment for enumm
 	mkdir -vp "src/main/java/thrift4go/generated/enumm"
 	mv gen-java/thrift4go/generated/enumm/*.java "src/main/java/thrift4go/generated/enumm"
+	# add generated code to java test environment for listt
 	mkdir -vp "src/main/java/thrift4go/generated/listt"
 	mv gen-java/thrift4go/generated/listt/*.java "src/main/java/thrift4go/generated/listt"
 	touch $@
 
 clean:
 	rm -rf $(TEST_ARTIFACTS)
-
 	# kill servers for enumm
 	-pkill -f 8080 # binary
 	-pkill -f 8081 # json
 	-pkill -f 8082 # compact
-
 	# kill servers for listt
 	-pkill -f 8180 # binary
 	-pkill -f 8181 # json
