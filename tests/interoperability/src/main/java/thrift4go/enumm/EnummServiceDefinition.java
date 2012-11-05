@@ -1,20 +1,20 @@
-package thrift4go;
+package thrift4go.enumm;
 
 
 import org.apache.thrift.TException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import thrift4go.generated.ContainerOfEnums;
-import thrift4go.generated.ContainerOfEnumsTestService;
+import thrift4go.generated.enumm.ContainerOfEnums;
+import thrift4go.generated.enumm.ContainerOfEnumsTestService;
 
 
-public class EchoServiceDefinition implements ContainerOfEnumsTestService.Iface {
-  private static final Logger log = LoggerFactory.getLogger(EchoServiceDefinition.class);
+public class EnummServiceDefinition implements ContainerOfEnumsTestService.Iface {
+  private static final Logger log = LoggerFactory.getLogger(EnummServiceDefinition.class);
 
   private final String protocolName;
 
-  public EchoServiceDefinition(final String protocolName) {
+  public EnummServiceDefinition(final String protocolName) {
     this.protocolName = protocolName;
   }
 

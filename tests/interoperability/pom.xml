@@ -47,7 +47,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>thrift4go.EchoServerEntryPoint</mainClass>
+              <mainClass>thrift4go.EntryPoint</mainClass>
             </manifest>
           </archive>
         </configuration>

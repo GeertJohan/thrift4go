@@ -1,4 +1,4 @@
-package simple
+package enumm
 
 import (
 	"testing"

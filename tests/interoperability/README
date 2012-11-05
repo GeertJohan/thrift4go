@@ -1,0 +1,8 @@
+
+
+Tests are devided into groups like 'enumm' and 'listt'.
+Port list:
+		BINARY		JSON		COMPACT
+enumm	8080		8081		8082
+listt	8180		8181		8182
+next	8280		8281		8282

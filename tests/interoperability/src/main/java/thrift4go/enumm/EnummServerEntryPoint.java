@@ -1,5 +1,4 @@
-
-package thrift4go;
+package thrift4go.enumm;
 
 
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -16,26 +15,18 @@ import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import thrift4go.generated.ContainerOfEnumsTestService;
+import thrift4go.generated.enumm.ContainerOfEnumsTestService;
 
 
-public class EchoServerEntryPoint {
-  private static final Logger log = LoggerFactory.getLogger(EchoServerEntryPoint.class);
+public class EnummServerEntryPoint {
+  private static final Logger log = LoggerFactory.getLogger(EnummServerEntryPoint.class);
 
-  public static void main(final String[] args) throws TTransportException {
-    if (args == null || args.length != 2) {
-      log.warn("Expects <protocol> <port> arguments.");
-      System.exit(1);
-    }
-
-    final String protocol = args[0].toUpperCase();
-    final int port = Integer.parseInt(args[1]);
-
+  public static void start(String protocol, int port) throws TTransportException {
     log.info("Preparing to start echo service.");
 
-    final ContainerOfEnumsTestService.Processor<EchoServiceDefinition> processor =
-        new ContainerOfEnumsTestService.Processor<EchoServiceDefinition>(
-            new EchoServiceDefinition(protocol));
+    final ContainerOfEnumsTestService.Processor<EnummServiceDefinition> processor =
+        new ContainerOfEnumsTestService.Processor<EnummServiceDefinition>(
+            new EnummServiceDefinition(protocol));
     final TServerTransport transport = new TServerSocket(port);
 
     final Args serviceArguments = new Args(transport);

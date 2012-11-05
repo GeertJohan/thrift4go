@@ -9,14 +9,9 @@ TEST_ARTIFACTS = \
 	test-exercise-stamp \
 	test-generation-stamp \
 	test-stamp \
-	test-start-binary-server-stamp \
-	test-start-compact-server-stamp \
-	test-start-json-server-stamp
+	test-start-servers-stamp
 
 THRIFT = $(CURDIR)/../merge/thrift-$(THRIFT_VERSION)/compiler/cpp/thrift
-IDL = $(CURDIR)/../generation/simple.thrift
-GENERATED = gen-java/thrift4go/generated/*.java
-GENERATED_TARGET = src/main/java/thrift4go/generated
 
 all: test
 
@@ -25,24 +20,14 @@ test: test-stamp
 test-stamp: test-exercise-stamp
 	touch $@
 
-test-exercise-stamp: test-start-binary-server-stamp test-start-json-server-stamp test-start-compact-server-stamp exercise_test.go
-	cp exercise_test.go gen-go/simple
-	cd gen-go/simple && go test -v -x .
+test-exercise-stamp: test-start-servers-stamp exercise_enumm_test.go
+	cp exercise_enumm_test.go gen-go/enumm
+	cd gen-go/enumm && go test -v -x .
 	touch $@
 
-test-start-binary-server-stamp: test-compile-stamp
-	java -jar target/interoperability-unversioned-jar-with-dependencies.jar BINARY 8080 &
-	sleep 5
-	touch $@
-
-test-start-json-server-stamp: test-compile-stamp
-	java -jar target/interoperability-unversioned-jar-with-dependencies.jar JSON 8081 &
-	sleep 5
-	touch $@
-
-test-start-compact-server-stamp: test-compile-stamp
-	java -jar target/interoperability-unversioned-jar-with-dependencies.jar COMPACT 8082 &
-	sleep 5
+test-start-servers-stamp: test-compile-stamp
+	java -jar target/interoperability-unversioned-jar-with-dependencies.jar &
+	sleep 10
 	touch $@
 
 test-compile-stamp: test-generation-stamp
@@ -52,17 +37,29 @@ test-compile-stamp: test-generation-stamp
 	touch $@
 
 test-generation-stamp:
-	"$(THRIFT)" --gen java "$(IDL)"
-	"$(THRIFT)" --gen go "$(IDL)"
-	mkdir -vp "$(GENERATED_TARGET)"
-	mv $(GENERATED) "$(GENERATED_TARGET)"
+	# thrift compile for enumm
+	"$(THRIFT)" --gen java "$(CURDIR)/../generation/enumm.thrift"
+	"$(THRIFT)" --gen go "$(CURDIR)/../generation/enumm.thrift"
+	# thrift compile for listt
+	"$(THRIFT)" --gen java "$(CURDIR)/../generation/listt.thrift"
+	"$(THRIFT)" --gen go "$(CURDIR)/../generation/listt.thrift"
+	# add generated code to java test environment for enumm
+	mkdir -vp "src/main/java/thrift4go/generated/enumm"
+	mv gen-java/thrift4go/generated/enumm/*.java "src/main/java/thrift4go/generated/enumm"
+	# add generated code to java test environment for listt
+	mkdir -vp "src/main/java/thrift4go/generated/listt"
+	mv gen-java/thrift4go/generated/listt/*.java "src/main/java/thrift4go/generated/listt"
 	touch $@
 
 clean:
 	rm -rf $(TEST_ARTIFACTS)
-	-pkill -f 8080
-	-pkill -f 8081
-	-pkill -f 8082
-	-pkill -f 8083
+	# kill servers for enumm
+	-pkill -f 8080 # binary
+	-pkill -f 8081 # json
+	-pkill -f 8082 # compact
+	# kill servers for listt
+	-pkill -f 8180 # binary
+	-pkill -f 8181 # json
+	-pkill -f 8182 # compact
 
 .PHONY: test
