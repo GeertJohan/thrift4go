@@ -1,22 +1,20 @@
 namespace java thrift4go.generated.listt
 
-enum TestEnum {
-	AAA,
-	BBB,
-	CCC,
-	DDD,
-	EEE,
+enum UndefinedValues {
+	One,
+	Two,
+	Three,
 }
 
-struct WrappedLists {
+struct StructWithLists {
 	1: list<i32>      listInt32,
 	2: list<string>   listString,
-	3: list<TestEnum> listTestEnum,
+	3: list<UndefinedValues> listUndefinedValues,
 }
 
 service ListsTestService {
-	WrappedLists echoWrappedLists(1: WrappedLists input);
 	list<i32> echoInt32List(1: list<i32> input);
 	list<string> echoStringList(1: list<string> input);
-	list<TestEnum> echoTestEnumList(1: list<TestEnum> input);
+	list<UndefinedValues> echoUndefinedValuesList(1: list<UndefinedValues> input);
+	StructWithLists echoStructWithLists(1: StructWithLists input);
 }
