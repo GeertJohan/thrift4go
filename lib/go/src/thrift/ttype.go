@@ -22,6 +22,7 @@ package thrift
 import (
 	"bytes"
 	"container/list"
+	"reflect"
 	"strconv"
 )
 
@@ -46,7 +47,7 @@ const (
 	MAP     = 13
 	SET     = 14
 	LIST    = 15
-	ENUM    = 16
+	ENUM    = 40
 	UTF8    = 16
 	UTF16   = 17
 	BINARY  = 18
@@ -887,6 +888,13 @@ func (p TType) CoerceData(data interface{}) (interface{}, bool) {
 			}
 		}
 		return int32(0), false
+	case ENUM:
+		// very nasty workaround, but only way I can fix this short-term.
+		// TODO(GeertJohan): solve this differently (probably imposible), or try new approach with thrift4go typehandling
+		//			(no dynamic/generic typing with interface{}, better generated code.)
+		v := reflect.ValueOf(data)
+		i64 := v.Int()
+		return i64, true
 	case I64:
 		if b, ok := data.(int64); ok {
 			return b, true

@@ -21,6 +21,7 @@ package thrift
 
 import (
 	"bytes"
+	"log"
 )
 
 /**
@@ -85,8 +86,11 @@ func (p *tList) Set(i int, data interface{}) {
 func (p *tList) Push(data interface{}) {
 	if p.elemType.IsEmptyType() {
 		p.elemType = TypeFromValue(data)
+		log.Printf("TList.elemType set to: %#v.", p.elemType)
 	}
+	log.Printf("Going to CoerceData(%#v) to type %#v.", data, p.elemType)
 	data, ok := p.elemType.CoerceData(data)
+	log.Printf("CoerceData was %t. Data is now: %#v.", ok, data)
 	if ok {
 		p.l = append(p.l, data)
 	}

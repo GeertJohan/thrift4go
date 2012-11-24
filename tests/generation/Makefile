@@ -30,7 +30,8 @@ test-compile-stamp: test-validate-stamp
 	touch $@
 
 test-validate-stamp: test-generation-stamp
-	#diff -Nru golden/gen-go/ gen-go/
+	# TODO(GeertJohan): enable golden diff test 
+	# diff -Nru golden/gen-go/ gen-go/
 	touch $@
 
 test-generation-stamp:
